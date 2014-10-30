@@ -8,18 +8,18 @@ class TableViewController: UITableViewController {
   let SectionFooterHeight : CGFloat = 20.0
   let SectionDelimiterMargin : CGFloat = 10.0
 
-  @lazy var objects: Array<(String, Array<String>, String)> = {
+  lazy var objects: Array<(String, Array<String>, String)> = {
     var a0 = ("Apple", ["AppleII", "Macintosh", "iMac"], "Desktop")
     var a1 = ("NEC", ["PC-2001", "PC-8201", "PC-98HA"], "Handheld")
     var a2 = ("CASIO", ["PB-100", "PB-120", "PB-1000C"], "Pocket")
     return [a0, a1, a2]
   }()
 
-  init(style: UITableViewStyle) {
+  override init(style: UITableViewStyle) {
     super.init(style: style)
   }
 
-  init(coder aDecoder: NSCoder!) {
+  required init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
 
@@ -55,36 +55,32 @@ class TableViewController: UITableViewController {
   }
 
   override func tableView(
-    tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!)
-    -> UITableViewCell? {
+    tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)
+    -> UITableViewCell {
     var cell =
-      tableView?.dequeueReusableCellWithIdentifier(
-        CellIdentifier, forIndexPath:indexPath) as? UITableViewCell
-
-    if !cell {
-      return nil;
-    }
+      tableView.dequeueReusableCellWithIdentifier(
+        CellIdentifier, forIndexPath:indexPath) as UITableViewCell
 
     let (_, d, _) = objects[indexPath.section]
-    cell!.text = d[indexPath.row]
+    cell.textLabel.text = d[indexPath.row]
 
     return cell
   }
 
   // #pragma mark - Table view delegate
 
-  override func tableView(tableView: UITableView!,
+  override func tableView(tableView: UITableView,
     heightForHeaderInSection section: Int) -> CGFloat {
       return SectionHeaderHeight
   }
 
-  override func tableView(tableView: UITableView!,
+  override func tableView(tableView: UITableView,
     heightForFooterInSection section: Int) -> CGFloat {
       return SectionFooterHeight
   }
 
   override func tableView(
-    tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
+    tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let (h, _, _) = objects[section]
 
     // create the label
@@ -106,7 +102,7 @@ class TableViewController: UITableViewController {
   }
 
   override func tableView(
-    tableView: UITableView!, viewForFooterInSection section: Int) -> UIView! {
+    tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     let (_, _, f) = objects[section]
 
     // create the label
